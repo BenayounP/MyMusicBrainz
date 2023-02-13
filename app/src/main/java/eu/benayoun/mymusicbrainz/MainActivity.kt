@@ -1,6 +1,7 @@
 package eu.benayoun.mymusicbrainz
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +11,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import eu.benayoun.mymusicbrainz.data.source.network.retrofit.RetrofitMusicBrainzDataSource
 import eu.benayoun.mymusicbrainz.ui.theme.MyMusicBrainzTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val retrofitMusicBrainzDataSource = RetrofitMusicBrainzDataSource(this)
+
+
+        MainScope().launch(Dispatchers.IO) {
+            val response = retrofitMusicBrainzDataSource.searchArtist("divine")
+            Log.v("MMMB_V", "response: ${response.toString()}")
+        }
         setContent {
             MyMusicBrainzTheme {
                 // A surface container using the 'background' color from the theme
