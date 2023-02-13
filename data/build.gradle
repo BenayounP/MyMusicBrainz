@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id "kotlin-kapt"
+}
+
+android {
+    compileSdk rootProject.ext.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        // For local tests
+        buildConfigField "int", "MIN_SDK_VERSION", "$minSdkVersion.apiLevel"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    namespace 'eu.benayoun.androidmoviedatabase'
+}
+
+dependencies {
+    // ** CORE **
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+
+    // ** DI **
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // ** DATA **
+
+    // DATASOURCE
+    // Retrofit
+    // https://github.com/square/retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+    // REPOSITORY
+    // Room
+    def room_version = '2.5.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // ** TESTS **
+    // Global
+    def coroutines_test_version = '1.6.4'
+    implementation 'androidx.test:monitor:1.6.1'
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+
+    // Local
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "com.google.truth:truth:$truth_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_test_version"
+    testImplementation "androidx.test:core:$androidx_test_version"
+    testImplementation "androidx.test:runner:1.5.2"
+    testImplementation 'org.robolectric:robolectric:4.8'
+
+}
