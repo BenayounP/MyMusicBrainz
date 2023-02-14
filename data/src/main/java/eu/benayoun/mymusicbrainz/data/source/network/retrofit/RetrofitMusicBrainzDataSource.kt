@@ -7,12 +7,13 @@ import android.os.Build
 import android.util.Log
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzAPIError
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.source.network.MusicBrainzDataSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitMusicBrainzDataSource(val context: Context) {
+internal class RetrofitMusicBrainzDataSource(val context: Context) : MusicBrainzDataSource {
     private val retrofitMusicBrainzSearchService: RetrofitMusicBrainzSearchService
 
     init {
@@ -33,7 +34,7 @@ class RetrofitMusicBrainzDataSource(val context: Context) {
             retrofit.create(RetrofitMusicBrainzSearchService::class.java)
     }
 
-    suspend fun searchArtist(query: String): MusicBrainzArtistSearchAPIResponse {
+    override suspend fun searchArtist(query: String): MusicBrainzArtistSearchAPIResponse {
         logv("    Retrofit step 1: check internet connectivity")
         if (!isNetworkConnected(context)) {
             return MusicBrainzArtistSearchAPIResponse.Error(
@@ -64,7 +65,7 @@ class RetrofitMusicBrainzDataSource(val context: Context) {
             logv("retrofit step 3: process EXCEPTION: $exceptionMessage")
             return MusicBrainzArtistSearchAPIResponse.Error(
                 MusicBrainzAPIError.Exception(
-                    exceptionMessage
+                    exceptionMessage ?: ""
                 )
             )
         }

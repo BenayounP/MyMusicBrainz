@@ -5,7 +5,7 @@ import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.source.network.retrofit.Area
 
 
-data class MusicBrainzArtist(
+internal data class MusicBrainzArtist(
     @SerializedName("id") var id: String? = null,
     @SerializedName("type") var type: String? = null,
     @SerializedName("score") var score: String? = null,

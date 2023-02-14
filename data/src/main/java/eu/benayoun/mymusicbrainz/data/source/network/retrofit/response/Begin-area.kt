@@ -2,8 +2,7 @@ package eu.benayoun.mymusicbrainz.data.source.network.retrofit.response
 
 import com.google.gson.annotations.SerializedName
 
-
-data class BeginArea(
+internal data class BeginArea(
 
     @SerializedName("id") var id: String? = null,
     @SerializedName("name") var name: String? = null,

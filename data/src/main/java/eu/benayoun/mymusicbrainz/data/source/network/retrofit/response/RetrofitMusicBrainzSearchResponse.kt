@@ -3,7 +3,7 @@ package eu.benayoun.mymusicbrainz.data.source.network.retrofit.response
 import com.google.gson.annotations.SerializedName
 
 
-data class RetrofitMusicBrainzSearchResponse(
+internal data class RetrofitMusicBrainzSearchResponse(
 
     @SerializedName("created") var created: String? = null,
     @SerializedName("count") var count: Int? = null,
