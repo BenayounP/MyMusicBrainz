@@ -25,8 +25,9 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
 
     init {
         getFlow()
-        repository.searchArtist("divine")
     }
+
+    fun searchArtist(query: String) = repository.searchArtist(query)
 
 
     // INTERNAL COOKING
