@@ -1,26 +1,28 @@
 package eu.benayoun.mymusicbrainz.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Color.Black,
+    onPrimary = Color.White,
+    secondary = DiceFmDarkGrey,
+    background = DiceFmDarkGrey,
+    tertiary = DiceFmYellow
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Color.White,
+    onPrimary = Color.Black,
+    secondary = DiceFmLightGrey,
+    background = DiceFmLightGrey,
+    tertiary = DiceFmYellow
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +39,7 @@ private val LightColorScheme = lightColorScheme(
 fun MyMusicBrainzTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -48,12 +50,12 @@ fun MyMusicBrainzTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-        }
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = colorScheme.secondary,
+            darkIcons = false
+        )
     }
 
     MaterialTheme(
