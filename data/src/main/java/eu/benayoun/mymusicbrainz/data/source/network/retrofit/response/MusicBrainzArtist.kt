@@ -18,6 +18,6 @@ internal data class MusicBrainzArtist(
     @SerializedName("life-span") var lifeSpan: LifeSpan? = LifeSpan()
 ) {
     fun asArtist(): Artist {
-        return Artist(id ?: "", name ?: "", country ?: "")
+        return Artist(id ?: "?", name ?: "?", country ?: "?", type = type ?: "")
     }
 }

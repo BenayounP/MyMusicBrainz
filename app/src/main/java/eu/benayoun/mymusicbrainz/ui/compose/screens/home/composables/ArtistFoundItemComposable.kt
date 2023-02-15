@@ -30,7 +30,7 @@ fun ArtistFoundItemComposable(modifier: Modifier = Modifier, artist: Artist) {
         Text(
             modifier = Modifier
                 .padding(horizontal = padding8),
-            text = artist.country,
+            text = "country:${artist.country}-type:${artist.type}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.Justify
