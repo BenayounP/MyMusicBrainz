@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import eu.benayoun.mymusicbrainz.data.repository.DefaultRepository
-import eu.benayoun.mymusicbrainz.data.repository.Repository
+import eu.benayoun.mymusicbrainz.data.repository.search.DefaultSearchRepository
+import eu.benayoun.mymusicbrainz.data.repository.search.SearchRepository
 import eu.benayoun.mymusicbrainz.data.source.network.MusicBrainzDataSource
 import eu.benayoun.mymusicbrainz.data.source.network.di.MusicBrainzDataSourceProvider
 import kotlinx.coroutines.Dispatchers
@@ -25,5 +25,6 @@ class RepositoryDiModule {
     @Provides
     internal fun providesRepository(
         @MusicBrainzDataSourceProvider musicBrainzDataSource: MusicBrainzDataSource
-    ): Repository = DefaultRepository(musicBrainzDataSource, MainScope(), Dispatchers.IO)
+    ): SearchRepository =
+        DefaultSearchRepository(musicBrainzDataSource, MainScope(), Dispatchers.IO)
 }

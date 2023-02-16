@@ -77,9 +77,6 @@ dependencies {
     // system bars customization
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 
-    // * COIL *
-    implementation "io.coil-kt:coil-compose:2.2.2"
-
     // ** DATA **
     implementation project(path: ':data')
 

@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.benayoun.mymusicbrainz.data.di.RepositoryProvider
 import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.repository.Repository
+import eu.benayoun.mymusicbrainz.data.repository.search.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(@RepositoryProvider private val repository: Repository) :
+class HomeViewModel @Inject constructor(@RepositoryProvider private val searchRepository: SearchRepository) :
     ViewModel() {
 
     // ongoing research
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
     fun searchArtist(query: String) {
         _ongoingResearch.value = true
         _musicBrainzArtistSearchAPIResponseState.value = MusicBrainzArtistSearchAPIResponse.Empty()
-        repository.searchArtist(query)
+        searchRepository.searchArtist(query)
     }
 
 
@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
     private fun getFlow() {
         // questions
         viewModelScope.launch {
-            repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
+            searchRepository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
                     _ongoingResearch.value = false
                     _musicBrainzArtistSearchAPIResponseState.value =

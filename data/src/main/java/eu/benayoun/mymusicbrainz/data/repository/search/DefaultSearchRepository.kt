@@ -1,4 +1,4 @@
-package eu.benayoun.mymusicbrainz.data.repository
+package eu.benayoun.mymusicbrainz.data.repository.search
 
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.source.network.MusicBrainzDataSource
@@ -10,11 +10,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-internal class DefaultRepository(
+internal class DefaultSearchRepository(
     private val musicBrainzDataSource: MusicBrainzDataSource,
     private val externalScope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher
-) : Repository {
+) : SearchRepository {
 
     /**
      * SEARCH

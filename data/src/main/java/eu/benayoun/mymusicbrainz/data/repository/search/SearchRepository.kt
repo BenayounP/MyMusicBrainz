@@ -1,9 +1,9 @@
-package eu.benayoun.mymusicbrainz.data.repository
+package eu.benayoun.mymusicbrainz.data.repository.search
 
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
 import kotlinx.coroutines.flow.Flow
 
-interface Repository {
+interface SearchRepository {
     // SEARCH
     suspend fun getSearchArtistResponseFlow(): Flow<MusicBrainzArtistSearchAPIResponse>
     fun searchArtist(query: String)

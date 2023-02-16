@@ -1,11 +1,12 @@
 # To do List
 
-* add a Readme!
 * modularization like
-  here : https://developer.android.com/topic/modularization#what-is-modularization
-* use cards for search
+  * here: https://developer.android.com/topic/modularization#what-is-modularization
+  * details: https://developer.android.com/topic/modularization/patterns
+* generate a common header `@Headers("User-Agent: MyMusicBrainz/0.9 ( pierre@cabnum.fr )")`
+* Add a Readme!
+* use strings.xml
 * Tests on error message on getting data on API
-* Remove coil?
 * remove okHttp interceptor?
 
 ## Nice to have
