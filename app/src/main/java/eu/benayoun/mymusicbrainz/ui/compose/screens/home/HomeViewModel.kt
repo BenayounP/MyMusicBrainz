@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.benayoun.mymusicbrainz.data.di.RepositoryProvider
+import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.Repository
 import kotlinx.coroutines.Dispatchers
@@ -38,8 +39,26 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
             repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
                     _musicBrainzArtistSearchAPIResponseState.value =
-                        musicBrainzArtistSearchAPIResponse
+                        if (musicBrainzArtistSearchAPIResponse is MusicBrainzArtistSearchAPIResponse.Success) {
+                            MusicBrainzArtistSearchAPIResponse.Success(
+                                sortSearchResult(
+                                    musicBrainzArtistSearchAPIResponse.artistsList
+                                )
+                            )
+                        } else musicBrainzArtistSearchAPIResponse
                 }
         }
     }
+
+    // we display in the first place results with full data (i.e no "?")
+    private fun sortSearchResult(unsortedArtistsList: List<Artist>): List<Artist> =
+        unsortedArtistsList.sortedWith(compareBy(
+            { artist: Artist ->
+                artist.country == "?"
+            },
+            { artist: Artist -> artist.type == "?" || artist.type == "" },
+            { artist: Artist -> artist.name })
+        )
+
+
 }

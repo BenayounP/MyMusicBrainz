@@ -1,6 +1,7 @@
 package eu.benayoun.mymusicbrainz.data.source.network.retrofit
 
-import eu.benayoun.mymusicbrainz.data.source.network.retrofit.response.RetrofitMusicBrainzSearchResponse
+
+import eu.benayoun.mymusicbrainz.data.source.network.retrofit.response.MusicBrainzArtistSearchResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -12,5 +13,5 @@ internal interface RetrofitMusicBrainzSearchService {
     suspend fun searchArtist(
         @Query("query") query: String,
         @Query("fmt") format: String = "json"
-    ): Response<RetrofitMusicBrainzSearchResponse>
+    ): Response<MusicBrainzArtistSearchResponse>
 }
