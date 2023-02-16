@@ -74,9 +74,6 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
-    // system bars customization
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
-
     // Design system
     implementation project(path: ':core:designsystem')
     // ** DATA **
