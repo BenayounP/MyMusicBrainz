@@ -18,6 +18,12 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(@RepositoryProvider private val repository: Repository) :
     ViewModel() {
+
+    // ongoing research
+    private val _ongoingResearch = MutableStateFlow<Boolean>(false)
+    val ongoingResearch = _ongoingResearch.asStateFlow()
+
+
     // search artists
     private val _musicBrainzArtistSearchAPIResponseState =
         MutableStateFlow<MusicBrainzArtistSearchAPIResponse>(MusicBrainzArtistSearchAPIResponse.Empty())
@@ -28,7 +34,11 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
         getFlow()
     }
 
-    fun searchArtist(query: String) = repository.searchArtist(query)
+    fun searchArtist(query: String) {
+        _ongoingResearch.value = true
+        _musicBrainzArtistSearchAPIResponseState.value = MusicBrainzArtistSearchAPIResponse.Empty()
+        repository.searchArtist(query)
+    }
 
 
     // INTERNAL COOKING
@@ -38,6 +48,7 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
         viewModelScope.launch {
             repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
+                    _ongoingResearch.value = false
                     _musicBrainzArtistSearchAPIResponseState.value =
                         if (musicBrainzArtistSearchAPIResponse is MusicBrainzArtistSearchAPIResponse.Success) {
                             MusicBrainzArtistSearchAPIResponse.Success(

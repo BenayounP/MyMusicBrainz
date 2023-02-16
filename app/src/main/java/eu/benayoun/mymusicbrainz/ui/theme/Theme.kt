@@ -14,7 +14,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = Color.White,
     secondary = DiceFmDarkGrey,
     background = DiceFmDarkGrey,
-    tertiary = DiceFmYellow
+    tertiary = DiceFmYellow,
 )
 
 private val LightColorScheme = lightColorScheme(
