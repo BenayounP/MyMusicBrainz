@@ -5,6 +5,8 @@ plugins {
 }
 
 android {
+    namespace 'eu.benayoun.mymusicbrainz.data.artistsearch'
+
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
@@ -33,7 +35,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    namespace 'eu.benayoun.androidmoviedatabase'
 }
 
 dependencies {
@@ -74,5 +75,4 @@ dependencies {
     testImplementation "androidx.test:core:$androidx_test_version"
     testImplementation "androidx.test:runner:1.5.2"
     testImplementation 'org.robolectric:robolectric:4.8'
-
 }

@@ -9,8 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding8
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
-import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding8
+
 
 @Composable
 fun ArtistFoundItemComposable(modifier: Modifier = Modifier, artist: Artist) {

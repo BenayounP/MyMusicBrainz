@@ -9,11 +9,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding8
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.HomeViewModel
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.ArtistFoundListComposable
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtistTextField
-import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding8
+
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {

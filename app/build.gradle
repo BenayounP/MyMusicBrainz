@@ -53,7 +53,7 @@ android {
 
 dependencies {
 
-// ** ANDROIDX **
+    // ** CORE **
     implementation "androidx.core:core-ktx:$androidx_core_version"
 
     // ** DI **
@@ -76,9 +76,11 @@ dependencies {
 
     // system bars customization
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
-    implementation project(path: ':data:artistsearch')
 
+    // Design system
+    implementation project(path: ':core:designsystem')
     // ** DATA **
+    implementation project(path: ':data:artistsearch')
 
     // ** TESTS **
 

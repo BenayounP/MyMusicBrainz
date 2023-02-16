@@ -8,8 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.MyMusicBrainzTheme
 import eu.benayoun.mymusicbrainz.ui.compose.HomeScreen
-import eu.benayoun.mymusicbrainz.ui.theme.MyMusicBrainzTheme
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

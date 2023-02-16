@@ -1,4 +1,4 @@
-package eu.benayoun.mymusicbrainz.ui.theme
+package eu.benayoun.mymusicbrainz.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

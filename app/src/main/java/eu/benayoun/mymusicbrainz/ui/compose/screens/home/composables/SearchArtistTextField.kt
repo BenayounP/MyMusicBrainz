@@ -8,9 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
-import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding2
-import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding4
-import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding8
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding2
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding4
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding8
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
