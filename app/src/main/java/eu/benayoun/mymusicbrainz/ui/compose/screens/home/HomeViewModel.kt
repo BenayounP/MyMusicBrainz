@@ -3,10 +3,10 @@ package eu.benayoun.mymusicbrainz.ui.compose.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.benayoun.mymusicbrainz.data.di.RepositoryProvider
-import eu.benayoun.mymusicbrainz.data.model.Artist
-import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.repository.search.SearchRepository
+import eu.benayoun.mymusicbrainz.data.artistsearch.di.RepositoryProvider
+import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
+import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.artistsearch.repository.search.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

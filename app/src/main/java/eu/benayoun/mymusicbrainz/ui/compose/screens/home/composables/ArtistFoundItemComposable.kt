@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import eu.benayoun.mymusicbrainz.data.model.Artist
+import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
 import eu.benayoun.mymusicbrainz.ui.theme.ComposeDimensions.padding8
 
 @Composable

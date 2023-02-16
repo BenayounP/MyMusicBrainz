@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import eu.benayoun.mymusicbrainz.data.model.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.HomeViewModel
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.ArtistFoundListComposable
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtistTextField
