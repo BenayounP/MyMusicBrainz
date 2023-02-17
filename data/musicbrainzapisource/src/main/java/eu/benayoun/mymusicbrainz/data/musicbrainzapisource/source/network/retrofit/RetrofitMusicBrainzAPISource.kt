@@ -7,13 +7,13 @@ import android.os.Build
 import android.util.Log
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzAPIError
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzDataSource
+import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzAPISource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-internal class RetrofitMusicBrainzDataSource(val context: Context) : MusicBrainzDataSource {
+internal class RetrofitMusicBrainzAPISource(val context: Context) : MusicBrainzAPISource {
     private val retrofitMusicBrainzSearchService: RetrofitMusicBrainzSearchService
 
     init {

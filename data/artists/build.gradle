@@ -49,13 +49,9 @@ dependencies {
     // Model
     implementation project(path: ':data:model')
 
-    // DATASOURCE
-    // Retrofit
-    // https://github.com/square/retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    //Logging Network Calls
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    // Datasource
+    implementation project(path: ':data:musicbrainzapisource')
+
 
     // REPOSITORY
     // Room

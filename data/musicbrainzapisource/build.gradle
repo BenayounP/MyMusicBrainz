@@ -46,6 +46,8 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // ** DATA **
+    // Model
+    implementation project(path: ':data:model')
 
     // DATASOURCE
     // Retrofit

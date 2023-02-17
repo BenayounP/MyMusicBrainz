@@ -2,7 +2,7 @@ package eu.benayoun.mymusicbrainz.data.artistsearch.repository
 
 
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzDataSource
+import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzAPISource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class DefaultSearchRepository(
-    private val musicBrainzDataSource: MusicBrainzDataSource,
+    private val musicBrainzDataSource: MusicBrainzAPISource,
     private val externalScope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher
 ) : SearchRepository {
@@ -35,6 +35,4 @@ internal class DefaultSearchRepository(
             }
         }
     }
-
-
 }

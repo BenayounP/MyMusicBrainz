@@ -6,22 +6,23 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzDataSource
-import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.retrofit.RetrofitMusicBrainzDataSource
+import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.MusicBrainzAPISource
+
+import eu.benayoun.mymusicbrainz.data.artistsearch.source.network.retrofit.RetrofitMusicBrainzAPISource
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-internal annotation class MusicBrainzDataSourceProvider
+annotation class MusicBrainzAPISourceProvider
 
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkSourceDIModules {
-    @MusicBrainzDataSourceProvider
+    @MusicBrainzAPISourceProvider
     @Singleton
     @Provides
-    internal fun providesMusicBrainzDataSource(@ApplicationContext context: Context): MusicBrainzDataSource {
-        return RetrofitMusicBrainzDataSource(context)
+    fun providesMusicBrainzAPISource(@ApplicationContext context: Context): MusicBrainzAPISource {
+        return RetrofitMusicBrainzAPISource(context)
     }
 }
