@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions
-import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
+import eu.benayoun.mymusicbrainz.data.model.Artist
 
 
 @Composable

@@ -3,10 +3,10 @@ package eu.benayoun.mymusicbrainz.ui.compose.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.benayoun.mymusicbrainz.data.artistsearch.di.RepositoryProvider
-import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
-import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.artistsearch.repository.SearchRepository
+import eu.benayoun.mymusicbrainz.data.model.Artist
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.repository.Repository
+import eu.benayoun.mymusicbrainz.data.repository.di.RepositoryProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(@RepositoryProvider private val searchRepository: SearchRepository) :
+class HomeViewModel @Inject constructor(@RepositoryProvider private val repository: Repository) :
     ViewModel() {
 
     // ongoing research
@@ -25,10 +25,10 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val searchRe
 
 
     // search artists
-    private val _musicBrainzArtistSearchAPIResponseState =
-        MutableStateFlow<MusicBrainzArtistSearchAPIResponse>(MusicBrainzArtistSearchAPIResponse.Empty())
-    val musicBrainzArtistSearchAPIResponseState: StateFlow<MusicBrainzArtistSearchAPIResponse> =
-        _musicBrainzArtistSearchAPIResponseState.asStateFlow()
+    private val _musicBrainArtistSearchAPIResponseState =
+        MutableStateFlow<MusicBrainArtistSearchAPIResponse>(MusicBrainArtistSearchAPIResponse.Empty())
+    val musicBrainArtistSearchAPIResponseState: StateFlow<MusicBrainArtistSearchAPIResponse> =
+        _musicBrainArtistSearchAPIResponseState.asStateFlow()
 
     init {
         getFlow()
@@ -36,8 +36,8 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val searchRe
 
     fun searchArtist(query: String) {
         _ongoingResearch.value = true
-        _musicBrainzArtistSearchAPIResponseState.value = MusicBrainzArtistSearchAPIResponse.Empty()
-        searchRepository.searchArtist(query)
+        _musicBrainArtistSearchAPIResponseState.value = MusicBrainArtistSearchAPIResponse.Empty()
+        repository.searchArtist(query)
     }
 
 
@@ -46,17 +46,17 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val searchRe
     private fun getFlow() {
         // questions
         viewModelScope.launch {
-            searchRepository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
-                .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
+            repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
+                .collect { musicBrainArtistSearchAPIResponse: MusicBrainArtistSearchAPIResponse ->
                     _ongoingResearch.value = false
-                    _musicBrainzArtistSearchAPIResponseState.value =
-                        if (musicBrainzArtistSearchAPIResponse is MusicBrainzArtistSearchAPIResponse.Success) {
-                            MusicBrainzArtistSearchAPIResponse.Success(
+                    _musicBrainArtistSearchAPIResponseState.value =
+                        if (musicBrainArtistSearchAPIResponse is MusicBrainArtistSearchAPIResponse.Success) {
+                            MusicBrainArtistSearchAPIResponse.Success(
                                 sortSearchResult(
-                                    musicBrainzArtistSearchAPIResponse.artistsList
+                                    musicBrainArtistSearchAPIResponse.artists
                                 )
                             )
-                        } else musicBrainzArtistSearchAPIResponse
+                        } else musicBrainArtistSearchAPIResponse
                 }
         }
     }

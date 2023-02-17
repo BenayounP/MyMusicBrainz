@@ -1,7 +1,8 @@
-package eu.benayoun.mymusicbrainz.data.artistsearch.source.network
+package eu.benayoun.mymusicbrainz.data.repository.source.network
 
-import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
+
 
 interface MusicBrainzAPISource {
-    suspend fun searchArtist(query: String): MusicBrainzArtistSearchAPIResponse
+    suspend fun searchArtist(query: String): MusicBrainArtistSearchAPIResponse
 }

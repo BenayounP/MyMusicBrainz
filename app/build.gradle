@@ -80,7 +80,7 @@ dependencies {
     // ** DATA **
     // Model
     implementation project(path: ':data:model')
-    implementation project(path: ':data:artists')
+    implementation project(path: ':data:repository')
 
     // ** TESTS **
 
