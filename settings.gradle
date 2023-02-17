@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MyMusicBrainz"
-include ':app', ':data:artistsearch', ':core:designsystem'
+include ':app', ':data:model', ':data:artists', ':core:designsystem'

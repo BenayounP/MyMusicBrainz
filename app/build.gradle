@@ -65,7 +65,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
     // * COMPOSE *
-    def composeBom = platform("androidx.compose:compose-bom:$rootProject.ext.compose_bom")
+    def composeBom = platform("androidx.compose:compose-bom:$rootProject.ext.compose_bom_version")
     implementation composeBom
 
     // Material Design 3
@@ -76,8 +76,11 @@ dependencies {
 
     // Design system
     implementation project(path: ':core:designsystem')
+
     // ** DATA **
-    implementation project(path: ':data:artistsearch')
+    // Model
+    implementation project(path: ':data:model')
+    implementation project(path: ':data:artists')
 
     // ** TESTS **
 

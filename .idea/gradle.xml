@@ -14,7 +14,8 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/data/artistsearch" />
+            <option value="$PROJECT_DIR$/data/artists" />
+            <option value="$PROJECT_DIR$/data/model" />
           </set>
         </option>
       </GradleProjectSettings>

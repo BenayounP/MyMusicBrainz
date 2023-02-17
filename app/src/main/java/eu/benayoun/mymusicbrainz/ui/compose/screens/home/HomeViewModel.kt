@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.benayoun.mymusicbrainz.data.artistsearch.di.RepositoryProvider
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.Artist
 import eu.benayoun.mymusicbrainz.data.artistsearch.model.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.artistsearch.repository.search.SearchRepository
+import eu.benayoun.mymusicbrainz.data.artistsearch.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
