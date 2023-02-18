@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding8
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.HomeViewModel
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.ArtistFoundListComposable
 import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtistTextField
@@ -18,14 +18,17 @@ import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtis
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+    fun onArtistItemClick(arid: String) {
+        viewModel.testRelease(arid)
+    }
+
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
-        ) {
+    ) {
         //textField
         SearchArtistTextField(onButtonClick = viewModel::searchArtist)
 
         val ongoingResearch = viewModel.ongoingResearch.collectAsState().value
-
 
         if (ongoingResearch) {
             Column(
@@ -44,11 +47,14 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
         }
         // search result
         else { // success
-            val response = viewModel.musicBrainArtistSearchAPIResponseState.collectAsState().value
-            if (response is MusicBrainArtistSearchAPIResponse.Success) {
+            val response = viewModel.musicBrainzArtistSearchAPIResponseState.collectAsState().value
+            if (response is MusicBrainzArtistSearchAPIResponse.Success) {
                 Spacer(modifier = Modifier.height(padding8))
-                ArtistFoundListComposable(foundArtistsList = response.artists)
-            } else if (response is MusicBrainArtistSearchAPIResponse.Error)// error
+                ArtistFoundListComposable(
+                    foundArtistsList = response.artists,
+                    onArtistItemClick = ::onArtistItemClick
+                )
+            } else if (response is MusicBrainzArtistSearchAPIResponse.Error)// error
             {
                 Column(
                     modifier.weight(1f),

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.benayoun.mymusicbrainz.data.model.Artist
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.Repository
 import eu.benayoun.mymusicbrainz.data.repository.di.RepositoryProvider
 import kotlinx.coroutines.Dispatchers
@@ -25,10 +25,10 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
 
 
     // search artists
-    private val _musicBrainArtistSearchAPIResponseState =
-        MutableStateFlow<MusicBrainArtistSearchAPIResponse>(MusicBrainArtistSearchAPIResponse.Empty())
-    val musicBrainArtistSearchAPIResponseState: StateFlow<MusicBrainArtistSearchAPIResponse> =
-        _musicBrainArtistSearchAPIResponseState.asStateFlow()
+    private val _musicBrainzArtistSearchAPIResponseState =
+        MutableStateFlow<MusicBrainzArtistSearchAPIResponse>(MusicBrainzArtistSearchAPIResponse.Empty())
+    val musicBrainzArtistSearchAPIResponseState: StateFlow<MusicBrainzArtistSearchAPIResponse> =
+        _musicBrainzArtistSearchAPIResponseState.asStateFlow()
 
     init {
         getFlow()
@@ -36,9 +36,13 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
 
     fun searchArtist(query: String) {
         _ongoingResearch.value = true
-        _musicBrainArtistSearchAPIResponseState.value = MusicBrainArtistSearchAPIResponse.Empty()
+        _musicBrainzArtistSearchAPIResponseState.value = MusicBrainzArtistSearchAPIResponse.Empty()
         repository.searchArtist(query)
     }
+
+    //TMP
+    //todo remove !
+    fun testRelease(arid: String) = repository.getReleases(arid)
 
 
     // INTERNAL COOKING
@@ -47,16 +51,16 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
         // questions
         viewModelScope.launch {
             repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
-                .collect { musicBrainArtistSearchAPIResponse: MusicBrainArtistSearchAPIResponse ->
+                .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
                     _ongoingResearch.value = false
-                    _musicBrainArtistSearchAPIResponseState.value =
-                        if (musicBrainArtistSearchAPIResponse is MusicBrainArtistSearchAPIResponse.Success) {
-                            MusicBrainArtistSearchAPIResponse.Success(
+                    _musicBrainzArtistSearchAPIResponseState.value =
+                        if (musicBrainzArtistSearchAPIResponse is MusicBrainzArtistSearchAPIResponse.Success) {
+                            MusicBrainzArtistSearchAPIResponse.Success(
                                 sortSearchResult(
-                                    musicBrainArtistSearchAPIResponse.artists
+                                    musicBrainzArtistSearchAPIResponse.artists
                                 )
                             )
-                        } else musicBrainArtistSearchAPIResponse
+                        } else musicBrainzArtistSearchAPIResponse
                 }
         }
     }

@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.artistsearch.RetrofitMusicBrainzAPISource
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.RetrofitMusicBrainzAPISource
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
 import javax.inject.Qualifier
 import javax.inject.Singleton

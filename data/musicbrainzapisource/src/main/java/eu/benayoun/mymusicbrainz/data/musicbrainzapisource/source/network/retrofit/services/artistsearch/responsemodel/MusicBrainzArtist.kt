@@ -1,7 +1,10 @@
-package eu.benayoun.mymusicbrainz.data.repository.source.network.retrofit.response
+package eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.artistsearch.responsemodel
 
 import com.google.gson.annotations.SerializedName
 import eu.benayoun.mymusicbrainz.data.model.Artist
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.responsemodel.Area
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.responsemodel.BeginArea
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.responsemodel.LifeSpan
 
 
 internal data class MusicBrainzArtist(
@@ -22,7 +25,5 @@ internal data class MusicBrainzArtist(
     @SerializedName("type") var type: String? = null,
     @SerializedName("gender") var gender: String? = null
 ) {
-    fun asArtist(): Artist {
-        return Artist(id ?: "?", name ?: "?", country ?: "?", type = type ?: "")
-    }
+    fun asArtist(): Artist = Artist(id ?: "?", name ?: "?", country ?: "?", type = type ?: "")
 }

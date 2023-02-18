@@ -1,4 +1,4 @@
-package eu.benayoun.mymusicbrainz.data.model.apiresponse
+package eu.benayoun.mymusicbrainz.data.model.apiresponse.global
 
 sealed class MusicBrainzAPIError() {
     object NoInternet : MusicBrainzAPIError()

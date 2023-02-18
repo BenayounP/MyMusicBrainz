@@ -1,7 +1,6 @@
-package eu.benayoun.mymusicbrainz.data.repository.source.network.retrofit.response
+package eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.artistsearch.responsemodel
 
 import com.google.gson.annotations.SerializedName
-
 
 internal data class Aliases(
 

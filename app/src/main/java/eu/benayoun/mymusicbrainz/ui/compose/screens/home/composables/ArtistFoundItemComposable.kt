@@ -1,6 +1,7 @@
 package eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,11 +15,16 @@ import eu.benayoun.mymusicbrainz.data.model.Artist
 
 
 @Composable
-fun ArtistFoundItemComposable(modifier: Modifier = Modifier, artist: Artist) {
+fun ArtistFoundItemComposable(
+    modifier: Modifier = Modifier,
+    artist: Artist,
+    onClick: (arId: String) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primary)
+            .clickable { onClick(artist.id) },
     ) {
         Text(
             modifier = Modifier

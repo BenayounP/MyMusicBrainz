@@ -1,15 +1,17 @@
-package eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.artistsearch
+package eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzAPIError
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.global.MusicBrainzAPIError
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.artistsearch.RetrofitMusicBrainzArtistSearchService
+import eu.benayoun.mymusicbrainz.data.musicbrainzapisource.source.network.retrofit.services.releases.RetrofitMusicBrainzReleasesService
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
-import eu.benayoun.mymusicbrainz.data.repository.source.network.retrofit.response.MusicBrainzArtistSearchResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -17,7 +19,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 internal class RetrofitMusicBrainzAPISource(val context: Context) : MusicBrainzAPISource {
-    private val retrofitMusicBrainzSearchService: RetrofitMusicBrainzSearchService
+    private val retrofitMusicBrainzArtistSearchService: RetrofitMusicBrainzArtistSearchService
+    private val retrofitMusicBrainzReleasesService: RetrofitMusicBrainzReleasesService
 
     init {
         val interceptor = HttpLoggingInterceptor()
@@ -33,16 +36,36 @@ internal class RetrofitMusicBrainzAPISource(val context: Context) : MusicBrainzA
             .client(okHttpClient)
             .build()
 
-        retrofitMusicBrainzSearchService =
-            retrofit.create(RetrofitMusicBrainzSearchService::class.java)
+        retrofitMusicBrainzArtistSearchService =
+            retrofit.create(RetrofitMusicBrainzArtistSearchService::class.java)
+        retrofitMusicBrainzReleasesService =
+            retrofit.create(RetrofitMusicBrainzReleasesService::class.java)
+
     }
 
-    override suspend fun searchArtist(query: String): MusicBrainArtistSearchAPIResponse {
-        val response = getData { retrofitMusicBrainzSearchService.searchArtist(query) }
-        if (response is MusicBrainzAPIResponse.Success<MusicBrainzArtistSearchResponse>) {
-            return MusicBrainArtistSearchAPIResponse.Success(response.successContent.artists.map { musicBrainzArtist -> musicBrainzArtist.asArtist() })
-        } else
-            return response as MusicBrainArtistSearchAPIResponse
+    override suspend fun searchArtist(query: String): MusicBrainzArtistSearchAPIResponse {
+        val musicBrainzAPIResponse =
+            getData { retrofitMusicBrainzArtistSearchService.searchArtist(query) }
+        return when (musicBrainzAPIResponse) {
+            is MusicBrainzAPIResponse.Success ->
+                MusicBrainzArtistSearchAPIResponse.Success(musicBrainzAPIResponse.successContent.artists.map { it.asArtist() })
+            is MusicBrainzAPIResponse.Error ->
+                MusicBrainzArtistSearchAPIResponse.Error(musicBrainzAPIResponse.musicBrainzAPIError)
+            else -> MusicBrainzArtistSearchAPIResponse.Error(getWeirdException())
+        }
+
+    }
+
+    override suspend fun getReleases(artistId: String): MusicBrainzGetArtistReleasesAPIResponse {
+        val musicBrainzAPIResponse =
+            getData { retrofitMusicBrainzReleasesService.getReleases("arid:$artistId") }
+        return when (musicBrainzAPIResponse) {
+            is MusicBrainzAPIResponse.Success ->
+                MusicBrainzGetArtistReleasesAPIResponse.Success(musicBrainzAPIResponse.successContent.musicBrainzReleases.map { it.asRelease() })
+            is MusicBrainzAPIResponse.Error ->
+                MusicBrainzGetArtistReleasesAPIResponse.Error(musicBrainzAPIResponse.musicBrainzAPIError)
+            else -> MusicBrainzGetArtistReleasesAPIResponse.Error(getWeirdException())
+        }
     }
 
     // INTERNAL COOKING
@@ -79,6 +102,8 @@ internal class RetrofitMusicBrainzAPISource(val context: Context) : MusicBrainzA
             )
         }
     }
+
+    private fun getWeirdException() = MusicBrainzAPIError.Exception("UNKNOWN PROBLEM 42")
 
     fun logv(message: String) {
         Log.v("MMMB_V", message)

@@ -1,7 +1,8 @@
 package eu.benayoun.mymusicbrainz.data.repository
 
 
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
+import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -23,15 +24,36 @@ internal class DefaultRepository(
 
     private val searchMutex = Mutex()
     private val _searchArtistResponseFlow =
-        MutableStateFlow<MusicBrainArtistSearchAPIResponse>(MusicBrainArtistSearchAPIResponse.Empty())
+        MutableStateFlow<MusicBrainzArtistSearchAPIResponse>(MusicBrainzArtistSearchAPIResponse.Empty())
 
-    override suspend fun getSearchArtistResponseFlow(): Flow<MusicBrainArtistSearchAPIResponse> =
+    override suspend fun getSearchArtistResponseFlow(): Flow<MusicBrainzArtistSearchAPIResponse> =
         _searchArtistResponseFlow
 
     override fun searchArtist(query: String) {
         externalScope.launch(dispatcher) {
             searchMutex.withLock() {
                 _searchArtistResponseFlow.value = musicBrainzDataSource.searchArtist(query)
+            }
+        }
+    }
+
+    /**
+     * COMPLETE ARTIST DATA WITH RELEASES
+     */
+
+    private val releasesMutex = Mutex()
+    private val _getArtistReleasesResponseFlow =
+        MutableStateFlow<MusicBrainzGetArtistReleasesAPIResponse>(
+            MusicBrainzGetArtistReleasesAPIResponse.Empty()
+        )
+
+    override suspend fun getArtistReleasesResponseFlow(): Flow<MusicBrainzGetArtistReleasesAPIResponse> =
+        _getArtistReleasesResponseFlow
+
+    override fun getReleases(arid: String) {
+        externalScope.launch(dispatcher) {
+            searchMutex.withLock() {
+                _getArtistReleasesResponseFlow.value = musicBrainzDataSource.getReleases(arid)
             }
         }
     }

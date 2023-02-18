@@ -12,7 +12,11 @@ import eu.benayoun.mymusicbrainz.data.model.Artist
 
 
 @Composable
-fun ArtistFoundListComposable(modifier: Modifier = Modifier, foundArtistsList: List<Artist>) {
+fun ArtistFoundListComposable(
+    modifier: Modifier = Modifier,
+    foundArtistsList: List<Artist>,
+    onArtistItemClick: (arId: String) -> Unit
+) {
     Column(
         modifier = modifier
     ) {
@@ -22,7 +26,7 @@ fun ArtistFoundListComposable(modifier: Modifier = Modifier, foundArtistsList: L
             verticalArrangement = Arrangement.spacedBy(ComposeDimensions.padding2)
         ) {
             items(foundArtistsList) { artist: Artist ->
-                ArtistFoundItemComposable(artist = artist)
+                ArtistFoundItemComposable(artist = artist, onClick = onArtistItemClick)
             }
         }
     }
