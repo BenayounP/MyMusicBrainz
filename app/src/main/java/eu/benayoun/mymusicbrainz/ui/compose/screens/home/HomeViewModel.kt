@@ -40,11 +40,6 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
         repository.searchArtist(query)
     }
 
-    //TMP
-    //todo remove !
-    fun testRelease(arid: String) = repository.getReleases(arid)
-
-
     // INTERNAL COOKING
 
     private fun getFlow() {

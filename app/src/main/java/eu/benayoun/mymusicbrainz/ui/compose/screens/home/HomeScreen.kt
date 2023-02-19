@@ -17,11 +17,11 @@ import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtis
 
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
-    fun onArtistItemClick(arid: String) {
-        viewModel.testRelease(arid)
-    }
-
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+    onArtistItemClick: (arid: String) -> Unit
+) {
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
     ) {
@@ -52,7 +52,7 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
                 Spacer(modifier = Modifier.height(padding8))
                 ArtistFoundListComposable(
                     foundArtistsList = response.artists,
-                    onArtistItemClick = ::onArtistItemClick
+                    onArtistItemClick = onArtistItemClick
                 )
             } else if (response is MusicBrainzArtistSearchAPIResponse.Error)// error
             {
