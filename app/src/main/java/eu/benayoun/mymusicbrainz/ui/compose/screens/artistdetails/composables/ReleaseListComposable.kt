@@ -1,4 +1,4 @@
-package eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables
+package eu.benayoun.mymusicbrainz.ui.compose.screens.artistdetails.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,14 +8,12 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions
-import eu.benayoun.mymusicbrainz.data.model.Artist
-
+import eu.benayoun.mymusicbrainz.data.model.Release
 
 @Composable
-fun ArtistFoundListComposable(
+fun ReleaseListComposable(
     modifier: Modifier = Modifier,
-    foundArtistsList: List<Artist>,
-    onArtistItemClick: (artistId: String) -> Unit
+    releasesList: List<Release>
 ) {
     Column(
         modifier = modifier
@@ -25,8 +23,8 @@ fun ArtistFoundListComposable(
             state = lazyState,
             verticalArrangement = Arrangement.spacedBy(ComposeDimensions.padding2)
         ) {
-            items(foundArtistsList) { artist: Artist ->
-                ArtistFoundItemComposable(artist = artist, onClick = onArtistItemClick)
+            items(releasesList) { release: Release ->
+                ReleaseItemComposable(release = release)
             }
         }
     }

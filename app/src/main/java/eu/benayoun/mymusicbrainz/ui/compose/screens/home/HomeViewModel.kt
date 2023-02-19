@@ -23,7 +23,6 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
     private val _ongoingResearch = MutableStateFlow<Boolean>(false)
     val ongoingResearch = _ongoingResearch.asStateFlow()
 
-
     // search artists
     private val _musicBrainzArtistSearchAPIResponseState =
         MutableStateFlow<MusicBrainzArtistSearchAPIResponse>(MusicBrainzArtistSearchAPIResponse.Empty())
@@ -43,7 +42,6 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
     // INTERNAL COOKING
 
     private fun getFlow() {
-        // questions
         viewModelScope.launch {
             repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->

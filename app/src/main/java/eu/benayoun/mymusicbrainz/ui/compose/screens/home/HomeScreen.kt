@@ -20,7 +20,7 @@ import eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables.SearchArtis
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
-    onArtistItemClick: (arid: String) -> Unit
+    onArtistItemClick: (artistId: String) -> Unit
 ) {
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -46,8 +46,9 @@ fun HomeScreen(
             }
         }
         // search result
-        else { // success
+        else {
             val response = viewModel.musicBrainzArtistSearchAPIResponseState.collectAsState().value
+            // success
             if (response is MusicBrainzArtistSearchAPIResponse.Success) {
                 Spacer(modifier = Modifier.height(padding8))
                 ArtistFoundListComposable(

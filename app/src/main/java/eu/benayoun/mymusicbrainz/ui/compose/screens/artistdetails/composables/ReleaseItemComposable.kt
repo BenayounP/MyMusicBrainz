@@ -1,7 +1,6 @@
-package eu.benayoun.mymusicbrainz.ui.compose.screens.home.composables
+package eu.benayoun.mymusicbrainz.ui.compose.screens.artistdetails.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,36 +9,33 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions.padding8
-import eu.benayoun.mymusicbrainz.data.model.Artist
-
+import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions
+import eu.benayoun.mymusicbrainz.data.model.Release
 
 @Composable
-fun ArtistFoundItemComposable(
+fun ReleaseItemComposable(
     modifier: Modifier = Modifier,
-    artist: Artist,
-    onClick: (artistId: String) -> Unit
+    release: Release
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
-            .clickable { onClick(artist.id) },
+            .background(MaterialTheme.colorScheme.secondary)
     ) {
         Text(
             modifier = Modifier
-                .padding(horizontal = padding8),
-            text = artist.name,
+                .padding(horizontal = ComposeDimensions.padding8),
+            text = release.title,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onSecondary,
             textAlign = TextAlign.Justify
         )
         Text(
             modifier = Modifier
-                .padding(horizontal = padding8),
-            text = "country:${artist.country}-type:${artist.type}",
+                .padding(horizontal = ComposeDimensions.padding8),
+            text = release.date,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Justify
         )
     }

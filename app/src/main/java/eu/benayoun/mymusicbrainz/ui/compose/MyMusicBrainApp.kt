@@ -26,8 +26,8 @@ fun MyMusicBrainzNavHost(navController: NavHostController) {
             )
         }
         composable(
-            "artistDetail/{arId}",
-            arguments = listOf(navArgument("arId") {
+            "artistDetail/{artistId}",
+            arguments = listOf(navArgument("artistId") {
                 type = NavType.StringType
             })
         ) {

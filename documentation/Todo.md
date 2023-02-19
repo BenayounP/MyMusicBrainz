@@ -1,15 +1,12 @@
 # To do List
 
-* modularization like
-  * here: https://developer.android.com/topic/modularization#what-is-modularization
-  * details: https://developer.android.com/topic/modularization/patterns
-* generate a common header `@Headers("User-Agent: MyMusicBrainz/0.9 ( pierre@cabnum.fr )")`
+* Test night mode
+* TESTS!
+  * Tests on error message on getting data on API
 * Add a Readme!
+  * details: https://developer.android.com/topic/modularization/patterns
 * use strings.xml
-* Tests on error message on getting data on API
 * remove okHttp interceptor?
+* add preview for composable
 
-## Nice to have
-
-* Replace Gson by moshi?
 

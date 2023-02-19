@@ -1,6 +1,7 @@
 package eu.benayoun.mymusicbrainz.data.repository
 
 
+import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
@@ -37,6 +38,13 @@ internal class DefaultRepository(
         }
     }
 
+    override suspend fun getSearchedArtist(artistId: String): Artist {
+        val searchedArtistResponse = _searchArtistResponseFlow.value
+        return if (searchedArtistResponse is MusicBrainzArtistSearchAPIResponse.Success) {
+            searchedArtistResponse.artists.first { artist: Artist -> artist.id == artistId }
+        } else Artist.EmptyArtist()
+    }
+
     /**
      * COMPLETE ARTIST DATA WITH RELEASES
      */
@@ -47,14 +55,13 @@ internal class DefaultRepository(
             MusicBrainzGetArtistReleasesAPIResponse.Empty()
         )
 
-    override suspend fun getArtistReleasesResponseFlow(): Flow<MusicBrainzGetArtistReleasesAPIResponse> =
-        _getArtistReleasesResponseFlow
-
-    override fun getReleases(arid: String) {
+    override suspend fun getArtistReleasesResponseFlow(artistId: String): Flow<MusicBrainzGetArtistReleasesAPIResponse> {
         externalScope.launch(dispatcher) {
-            searchMutex.withLock() {
-                _getArtistReleasesResponseFlow.value = musicBrainzDataSource.getReleases(arid)
+            releasesMutex.withLock() {
+                _getArtistReleasesResponseFlow.value = musicBrainzDataSource.getReleases(artistId)
             }
         }
+        return _getArtistReleasesResponseFlow
     }
+
 }
