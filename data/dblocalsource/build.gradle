@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'eu.benayoun.mymusicbrainz.data.artistsearch'
+    namespace 'eu.benayoun.mymusicbrainz.data.dblocalsource'
 
     compileSdk rootProject.ext.compileSdk
 
@@ -49,9 +49,11 @@ dependencies {
     // Model
     implementation project(path: ':data:model')
 
-    // Datasource
-    implementation project(path: ':data:musicbrainzapisource')
-
+    // ** DB **
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // ** TESTS **
     // Global

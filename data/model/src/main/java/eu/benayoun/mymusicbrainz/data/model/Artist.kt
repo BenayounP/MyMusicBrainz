@@ -5,7 +5,7 @@ data class Artist(
     val name: String,
     val country: String,
     val type: String,
-    val releases: ArrayList<Release> = arrayListOf()
+    val releases: List<Release> = listOf()
 ) {
     companion object {
         fun EmptyArtist(): Artist = Artist("?", "?", "?", "?")
