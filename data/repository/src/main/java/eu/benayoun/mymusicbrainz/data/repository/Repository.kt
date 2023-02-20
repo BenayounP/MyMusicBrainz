@@ -2,16 +2,21 @@ package eu.benayoun.mymusicbrainz.data.repository
 
 import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {
     // SEARCH ARTIST
     suspend fun getSearchArtistResponseFlow(): Flow<MusicBrainzArtistSearchAPIResponse>
     fun searchArtist(query: String)
-    suspend fun getSearchedArtist(artistId: String): Artist
+
+    // GET ARTIST
+    // first in saved ones and after on current searched ones
+    suspend fun getArtist(artistId: String): Artist
+
+    // Update Artist Releases
+    suspend fun updateArtistReleases(artistId: String)
 
 
-    // COMPLETE ARTIST DATA WITH RELEASES
-    suspend fun getArtistReleasesResponseFlow(artistId: String): Flow<MusicBrainzGetArtistReleasesAPIResponse>
+    // SAVE ARTISTS
+    suspend fun getLast3ArtistsConsultedFlow(): Flow<List<Artist>>
 }

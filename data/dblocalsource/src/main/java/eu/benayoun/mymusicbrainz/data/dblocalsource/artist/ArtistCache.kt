@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ArtistCache {
     suspend fun getLast3ArtistsConsultedFlow(): Flow<List<Artist>>
     suspend fun saveArtist(artist: Artist)
+    suspend fun getArtist(artistId: String): Artist?
 }

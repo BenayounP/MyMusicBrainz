@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import eu.benayoun.mymusicbrainz.core.designsystem.theme.ComposeDimensions
-import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
 import eu.benayoun.mymusicbrainz.ui.compose.screens.artistdetails.composables.ReleaseListComposable
 
 @Composable
@@ -53,36 +52,10 @@ fun ArtistDetailsScreen(
             textAlign = TextAlign.Center
         )
         // list
-        val releaseResponse =
-            viewModel.musicBrainzGetArtistReleasesAPIResponseState.collectAsState().value
-        when (releaseResponse) {
-            is MusicBrainzGetArtistReleasesAPIResponse.Empty ->
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = "Get Releases", // todo use an xml resource
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Center
-                )
-            is MusicBrainzGetArtistReleasesAPIResponse.Error ->
-                Column(
-                    modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        text = releaseResponse.musicBrainzAPIError.toString(), // todo use an xml resource
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.error,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            is MusicBrainzGetArtistReleasesAPIResponse.Success -> {
-                Spacer(modifier = Modifier.height(ComposeDimensions.padding8))
-                ReleaseListComposable(releasesList = releaseResponse.releases)
-            }
+        val releases = artist.releases
+        if (releases.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(ComposeDimensions.padding8))
+            ReleaseListComposable(releasesList = releases)
         }
     }
 }

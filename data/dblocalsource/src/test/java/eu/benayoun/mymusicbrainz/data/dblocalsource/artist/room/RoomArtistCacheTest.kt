@@ -79,4 +79,20 @@ class RoomArtistCacheTest : AndroidLocalTest() {
         Truth.assertThat(actualList[2]).isEqualTo(artist2)
     }
 
+    @Test
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
+    fun testSaveAndRetrieve() = runTest {
+        // ARRANGE
+        val release1 = Release("42", "vive le graves", "2023")
+        val release2 = Release("43", "vive le graves!!", "2023")
+        val release3 = Release("44", " super le graves", "2023")
+        val artist1 = Artist("1", "1", "France", "Group", listOf(release1, release2, release3))
+
+        // ACT
+        roomArtistCache.saveArtist(artist1)
+
+        //ASSERT
+        val foundArtist = roomArtistCache.getArtist(artist1.id)
+        Truth.assertThat(foundArtist).isEqualTo(artist1)
+    }
 }

@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import eu.benayoun.mymusicbrainz.data.dblocalsource.artist.ArtistCache
+import eu.benayoun.mymusicbrainz.data.dblocalsource.di.ArtistRoomCacheProvider
 import eu.benayoun.mymusicbrainz.data.repository.DefaultRepository
 import eu.benayoun.mymusicbrainz.data.repository.Repository
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
@@ -24,7 +26,8 @@ class RepositoryDiModule {
     @Singleton
     @Provides
     internal fun providesRepository(
-        @MusicBrainzAPISourceProvider musicBrainzDataSource: MusicBrainzAPISource
+        @MusicBrainzAPISourceProvider musicBrainzDataSource: MusicBrainzAPISource,
+        @ArtistRoomCacheProvider artistCache: ArtistCache
     ): Repository =
-        DefaultRepository(musicBrainzDataSource, MainScope(), Dispatchers.IO)
+        DefaultRepository(musicBrainzDataSource, artistCache, MainScope(), Dispatchers.IO)
 }

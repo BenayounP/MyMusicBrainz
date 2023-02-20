@@ -1,6 +1,7 @@
 package eu.benayoun.mymusicbrainz.data.repository
 
 
+import eu.benayoun.mymusicbrainz.data.dblocalsource.artist.ArtistCache
 import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
@@ -15,6 +16,7 @@ import kotlinx.coroutines.sync.withLock
 
 internal class DefaultRepository(
     private val musicBrainzDataSource: MusicBrainzAPISource,
+    private val artistCache: ArtistCache,
     private val externalScope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher
 ) : Repository {
@@ -38,15 +40,46 @@ internal class DefaultRepository(
         }
     }
 
-    override suspend fun getSearchedArtist(artistId: String): Artist {
-        val searchedArtistResponse = _searchArtistResponseFlow.value
-        return if (searchedArtistResponse is MusicBrainzArtistSearchAPIResponse.Success) {
-            searchedArtistResponse.artists.first { artist: Artist -> artist.id == artistId }
-        } else Artist.EmptyArtist()
+    // UPDATE ARTIST
+    override suspend fun updateArtistReleases(artistId: String) {
+        externalScope.launch(dispatcher) {
+            releasesMutex.withLock() {
+                val response = musicBrainzDataSource.getReleases(artistId)
+                _getArtistReleasesResponseFlow.value = response
+                if (response is MusicBrainzGetArtistReleasesAPIResponse.Success) {
+                    val foundArtist = getArtist(artistId)
+                    if (!foundArtist.isEmpty()) {
+                        val artistToSave = Artist(
+                            foundArtist.id,
+                            foundArtist.name,
+                            foundArtist.country,
+                            foundArtist.type,
+                            response.releases
+                        )
+                        artistCache.saveArtist(artistToSave)
+                    }
+                }
+            }
+        }
+    }
+
+    //Get Artist
+
+    override suspend fun getArtist(artistId: String): Artist {
+        //in db
+        val savedArtist = artistCache.getArtist(artistId)
+        if (savedArtist != null) return savedArtist
+        else {
+            // in searched artist
+            val searchedArtistResponse = _searchArtistResponseFlow.value
+            return if (searchedArtistResponse is MusicBrainzArtistSearchAPIResponse.Success) {
+                searchedArtistResponse.artists.first { artist: Artist -> artist.id == artistId }
+            } else Artist.EmptyArtist()
+        }
     }
 
     /**
-     * COMPLETE ARTIST DATA WITH RELEASES
+     * INTERNAL COOKING
      */
 
     private val releasesMutex = Mutex()
@@ -55,13 +88,8 @@ internal class DefaultRepository(
             MusicBrainzGetArtistReleasesAPIResponse.Empty()
         )
 
-    override suspend fun getArtistReleasesResponseFlow(artistId: String): Flow<MusicBrainzGetArtistReleasesAPIResponse> {
-        externalScope.launch(dispatcher) {
-            releasesMutex.withLock() {
-                _getArtistReleasesResponseFlow.value = musicBrainzDataSource.getReleases(artistId)
-            }
-        }
-        return _getArtistReleasesResponseFlow
-    }
-
+    /**
+     * SAVED ARTISTS
+     */
+    override suspend fun getLast3ArtistsConsultedFlow() = artistCache.getLast3ArtistsConsultedFlow()
 }

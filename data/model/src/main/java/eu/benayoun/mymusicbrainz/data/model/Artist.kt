@@ -10,4 +10,6 @@ data class Artist(
     companion object {
         fun EmptyArtist(): Artist = Artist("?", "?", "?", "?")
     }
+
+    fun isEmpty() = id == "?"
 }

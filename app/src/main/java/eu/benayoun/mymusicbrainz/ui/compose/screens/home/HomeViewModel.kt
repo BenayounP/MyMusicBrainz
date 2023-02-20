@@ -19,6 +19,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(@RepositoryProvider private val repository: Repository) :
     ViewModel() {
 
+    //saved Artists
+    private val _last3SavedArtistsState = MutableStateFlow<List<Artist>>(listOf())
+    val last3SavedArtistsState = _last3SavedArtistsState.asStateFlow()
+
     // ongoing research
     private val _ongoingResearch = MutableStateFlow<Boolean>(false)
     val ongoingResearch = _ongoingResearch.asStateFlow()
@@ -30,7 +34,7 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
         _musicBrainzArtistSearchAPIResponseState.asStateFlow()
 
     init {
-        getFlow()
+        getFlows()
     }
 
     fun searchArtist(query: String) {
@@ -41,7 +45,13 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
 
     // INTERNAL COOKING
 
-    private fun getFlow() {
+    private fun getFlows() {
+        viewModelScope.launch {
+            repository.getLast3ArtistsConsultedFlow().flowOn(Dispatchers.IO)
+                .collect { artists: List<Artist> ->
+                    _last3SavedArtistsState.value = artists
+                }
+        }
         viewModelScope.launch {
             repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->

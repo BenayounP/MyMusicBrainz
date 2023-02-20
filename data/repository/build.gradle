@@ -49,8 +49,9 @@ dependencies {
     // Model
     implementation project(path: ':data:model')
 
-    // Datasource
+    // Data source
     implementation project(path: ':data:musicbrainzapisource')
+    implementation project(path: ':data:dblocalsource')
 
 
     // ** TESTS **
