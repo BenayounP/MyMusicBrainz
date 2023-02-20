@@ -13,6 +13,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = Color.Black,
     onPrimary = Color.White,
     secondary = DiceFmDarkGrey,
+    onSecondary = Color.White,
     background = DiceFmDarkGrey,
     tertiary = DiceFmYellow,
 )
@@ -21,8 +22,9 @@ private val LightColorScheme = lightColorScheme(
     primary = Color.White,
     onPrimary = Color.Black,
     secondary = DiceFmLightGrey,
+    onSecondary = Color.White,
     background = DiceFmLightGrey,
-    tertiary = DiceFmYellow
+    tertiary = orange
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

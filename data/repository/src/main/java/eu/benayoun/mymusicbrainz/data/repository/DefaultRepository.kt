@@ -3,6 +3,7 @@ package eu.benayoun.mymusicbrainz.data.repository
 
 import eu.benayoun.mymusicbrainz.data.dblocalsource.artist.ArtistCache
 import eu.benayoun.mymusicbrainz.data.model.Artist
+import eu.benayoun.mymusicbrainz.data.model.Release
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzGetArtistReleasesAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.source.network.MusicBrainzAPISource
@@ -41,7 +42,7 @@ internal class DefaultRepository(
     }
 
     // UPDATE ARTIST
-    override suspend fun updateArtistReleases(artistId: String) {
+    override suspend fun updateAndSaveArtist(artistId: String) {
         externalScope.launch(dispatcher) {
             releasesMutex.withLock() {
                 val response = musicBrainzDataSource.getReleases(artistId)
@@ -49,12 +50,13 @@ internal class DefaultRepository(
                 if (response is MusicBrainzGetArtistReleasesAPIResponse.Success) {
                     val foundArtist = getArtist(artistId)
                     if (!foundArtist.isEmpty()) {
+                        val releases = response.releases
                         val artistToSave = Artist(
                             foundArtist.id,
                             foundArtist.name,
                             foundArtist.country,
                             foundArtist.type,
-                            response.releases
+                            releases
                         )
                         artistCache.saveArtist(artistToSave)
                     }
@@ -63,7 +65,10 @@ internal class DefaultRepository(
         }
     }
 
-    //Get Artist
+    override suspend fun getArtistsReleasesFlow(artistId: String): Flow<List<Release>> =
+        artistCache.getReleasesFlow(artistId)
+
+    override suspend fun getLast3ArtistsConsultedFlow() = artistCache.getLast3ArtistsConsultedFlow()
 
     override suspend fun getArtist(artistId: String): Artist {
         //in db
@@ -87,9 +92,4 @@ internal class DefaultRepository(
         MutableStateFlow<MusicBrainzGetArtistReleasesAPIResponse>(
             MusicBrainzGetArtistReleasesAPIResponse.Empty()
         )
-
-    /**
-     * SAVED ARTISTS
-     */
-    override suspend fun getLast3ArtistsConsultedFlow() = artistCache.getLast3ArtistsConsultedFlow()
 }

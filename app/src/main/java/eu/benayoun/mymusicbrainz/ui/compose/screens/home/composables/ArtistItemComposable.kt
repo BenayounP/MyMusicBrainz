@@ -15,7 +15,7 @@ import eu.benayoun.mymusicbrainz.data.model.Artist
 
 
 @Composable
-fun ArtistFoundItemComposable(
+fun ArtistItemComposable(
     modifier: Modifier = Modifier,
     artist: Artist,
     onClick: (artistId: String) -> Unit
@@ -39,7 +39,7 @@ fun ArtistFoundItemComposable(
                 .padding(horizontal = padding8),
             text = "country:${artist.country}-type:${artist.type}",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.tertiary,
             textAlign = TextAlign.Justify
         )
     }

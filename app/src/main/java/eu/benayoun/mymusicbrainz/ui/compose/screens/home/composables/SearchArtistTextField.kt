@@ -43,7 +43,7 @@ fun SearchArtistTextField(modifier: Modifier = Modifier, onButtonClick: (query: 
                 .padding(end = padding4)
                 .wrapContentSize(),
             singleLine = true,
-            colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colorScheme.primary),
+            colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colorScheme.onSecondary),
             label = { Text("Search artist") }, // todo replace with a string in xml
             placeholder = { Text("Artist name") }, // todo replace with a string in xml
             value = textState.value,

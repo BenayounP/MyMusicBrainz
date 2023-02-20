@@ -39,7 +39,7 @@ fun HomeScreen(
                     .padding(start = padding4),
                 text = "Last Artists", // todo use an xml resource
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSecondary,
                 textAlign = TextAlign.Justify
             )
             Spacer(modifier = Modifier.height(padding8))
@@ -78,7 +78,7 @@ fun HomeScreen(
                         .padding(start = padding4),
                     text = "Search Result", // todo use an xml resource
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Justify
                 )
                 Spacer(modifier = Modifier.height(padding8))

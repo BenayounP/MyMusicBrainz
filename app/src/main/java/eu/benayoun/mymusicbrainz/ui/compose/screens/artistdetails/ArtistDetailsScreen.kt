@@ -43,17 +43,16 @@ fun ArtistDetailsScreen(
         )
         Spacer(modifier = Modifier.height(ComposeDimensions.padding8))
         // RELEASES
-        Text(
-            modifier = Modifier
-                .fillMaxWidth(),
-            text = "RELEASES",
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onPrimary,
-            textAlign = TextAlign.Center
-        )
-        // list
-        val releases = artist.releases
+        val releases = viewModel.releaseState.collectAsState().value
         if (releases.isNotEmpty()) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "RELEASES",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(ComposeDimensions.padding8))
             ReleaseListComposable(releasesList = releases)
         }

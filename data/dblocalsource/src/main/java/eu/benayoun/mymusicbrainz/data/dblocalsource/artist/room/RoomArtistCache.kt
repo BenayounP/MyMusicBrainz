@@ -3,6 +3,7 @@ package eu.benayoun.mymusicbrainz.data.dblocalsource.artist.room
 import eu.benayoun.mymusicbrainz.data.dblocalsource.artist.ArtistCache
 import eu.benayoun.mymusicbrainz.data.dblocalsource.artist.room.internal.ArtistDao
 import eu.benayoun.mymusicbrainz.data.model.Artist
+import eu.benayoun.mymusicbrainz.data.model.Release
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,5 +24,11 @@ internal class RoomArtistCache(private val artistDao: ArtistDao) : ArtistCache {
         val artistEntity = artistDao.getArtist(artistId)
         return if (artistEntity != null) artistEntity.asArtist()
         else null
+    }
+
+    override suspend fun getReleasesFlow(artistId: String): Flow<List<Release>> {
+        return artistDao.getReleases(artistId).map {
+            it.map { it.asRelease() }
+        }
     }
 }

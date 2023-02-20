@@ -37,4 +37,7 @@ internal interface ArtistDao {
     // retrieve an artistById
     @Query("SELECT * FROM artists WHERE id = :artistId")
     suspend fun getArtist(artistId: String): RoomArtistWithReleases?
+
+    @Query("SELECT * FROM releases WHERE artistID = :artistId")
+    fun getReleases(artistId: String): Flow<List<ReleaseEntity>>
 }

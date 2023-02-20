@@ -35,7 +35,7 @@ fun ReleaseItemComposable(
                 .padding(horizontal = ComposeDimensions.padding8),
             text = release.date,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.tertiary,
             textAlign = TextAlign.Justify
         )
     }

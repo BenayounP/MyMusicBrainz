@@ -26,7 +26,7 @@ fun ArtistListComposable(
             verticalArrangement = Arrangement.spacedBy(ComposeDimensions.padding2)
         ) {
             items(artists) { artist: Artist ->
-                ArtistFoundItemComposable(artist = artist, onClick = onArtistItemClick)
+                ArtistItemComposable(artist = artist, onClick = onArtistItemClick)
             }
         }
     }
