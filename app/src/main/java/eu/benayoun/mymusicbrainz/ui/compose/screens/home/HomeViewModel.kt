@@ -7,11 +7,9 @@ import eu.benayoun.mymusicbrainz.data.model.Artist
 import eu.benayoun.mymusicbrainz.data.model.apiresponse.MusicBrainzArtistSearchAPIResponse
 import eu.benayoun.mymusicbrainz.data.repository.Repository
 import eu.benayoun.mymusicbrainz.data.repository.di.RepositoryProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,13 +45,13 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
 
     private fun getFlows() {
         viewModelScope.launch {
-            repository.getLast3ArtistsConsultedFlow().flowOn(Dispatchers.IO)
+            repository.getLast3ArtistsConsultedFlow()
                 .collect { artists: List<Artist> ->
                     _last3SavedArtistsState.value = artists
                 }
         }
         viewModelScope.launch {
-            repository.getSearchArtistResponseFlow().flowOn(Dispatchers.IO)
+            repository.getSearchArtistResponseFlow()
                 .collect { musicBrainzArtistSearchAPIResponse: MusicBrainzArtistSearchAPIResponse ->
                     _ongoingResearch.value = false
                     _musicBrainzArtistSearchAPIResponseState.value =
@@ -77,6 +75,4 @@ class HomeViewModel @Inject constructor(@RepositoryProvider private val reposito
             { artist: Artist -> artist.type == "?" || artist.type == "" },
             { artist: Artist -> artist.name })
         )
-
-
 }
